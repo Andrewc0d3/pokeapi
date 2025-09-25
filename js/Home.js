@@ -1,3 +1,3 @@
 function Home (){
-    alert(home)
+document.getElementById("root").innerHTML = "Home"
 }
