@@ -1,0 +1,3 @@
+function Pokemon (){
+    alert(Pokemon)
+}
