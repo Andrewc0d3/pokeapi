@@ -1,4 +1,4 @@
-async function Pokemon (){
+async function Pokemon (id){
 
     const res = await fetch("https://pokeapi.co/api/v2/pokemon/"+id);
     const data= await res.json();
@@ -8,7 +8,7 @@ async function Pokemon (){
 
     let tipoPoke = "";
    for(let i = 0; i <data.types.length; i++) {
-        tipoPoke += '<span>${data.types[i].type.name}</span>';
+        tipoPoke += `<span>${data.types[i].type.name}</span>`;
     }
     const detalle = `
     <section class="c-detalle">
@@ -24,7 +24,7 @@ async function Pokemon (){
     </section>
     `;
 
-    root.innerHTML= detalle
+    root.innerHTML= Pokemon;
 }
 
 Pokemon(5)
