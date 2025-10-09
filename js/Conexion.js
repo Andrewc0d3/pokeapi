@@ -1,7 +1,8 @@
-var totalPokes = 10
-var pokemones = []
+let pokemones = [];
+let totalPokes = "1000";
 
-async function Conexion (filtrotipo){
+
+async function Conexion(filtrotipo){
         
   if(filtrotipo == "All"){
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${totalPokes}`);
@@ -22,11 +23,15 @@ async function Conexion (filtrotipo){
 
 async function General() {
   if (pokemones.length === 0) {
-    pokemones = await Conexion();
+    pokemones = await Conexion("All");
   }
   Home();
 }
 
-General ()
-Conexion ()
 
+async function FiltroConexion(Elfiltro){
+  document.getElementById("la-lista").innerHTML = "";
+  pokemones = await Conexion(Elfiltro);
+  const listaHTML = generarLista(pokemones);
+  document.getElementById("la-lista").innerHTML = listaHTML;
+}

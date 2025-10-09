@@ -1,28 +1,39 @@
+function buscadorfuncion(sza){
+    if(sza.length >= 3){
+        const filtrados = [];
+        for (let i = 0; i < pokemones.length; i++) {
+            const nombre = pokemones[i].name.toLowerCase();
+            if (nombre.includes(sza.toLowerCase())) {
+                filtrados.push(pokemones[i]);
+            }
+        }
+        let listaHTML = generarLista(filtrados)
+        document.getElementById("la-lista").innerHTML = listaHTML;
+    }else{
+        let listaHTML = generarLista(pokemones)
+        document.getElementById("la-lista").innerHTML = listaHTML;
+    }
+}
+
 function generarLista(arraypokemones) {
     let listaHTML = "";
     for (let i = 0; i < arraypokemones.length; i++) {
-        let id = i;
+        let id = arraypokemones[i].url.split("/")[6];
         listaHTML += `
-        <div class="c-lista-pokemon poke-${id}" onclick="Detalle('${id}')">
+        <div class="c-lista-pokemon poke-${id}" onclick="Pokemon('${id}')">
             <p>#${id}</p>
             <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" width="auto" height="60" loading="lazy" alt="${arraypokemones[i].name}">
             <p>${arraypokemones[i].name}</p>
         </div>`;
     }
-    console.log(listaHTML)
     return listaHTML;
 }
 
+function Home(filtro){
 
-async function FiltroConexion(Elfiltro){
-  document.getElementById("la-lista").innerHTML = "";
-  pokemones = await Conexion(Elfiltro);
-  const listaHTML = generarLista(pokemones);
-  document.getElementById("la-lista").innerHTML = listaHTML;
-}
-
-function Home (){
-//buscador
+    var root = document.getElementById("root");
+    root.innerHTML = ""
+    //buscador
     const buscador = document.createElement("input");
     buscador.classList.add("c-buscador");
     buscador.type = "text";
@@ -31,8 +42,6 @@ function Home (){
             buscadorfuncion(buscador.value);
     });
 
-    document.getElementById("root").innerHTML = buscador 
-
     //contenedor filtro
     const tipos = [
         "normal", "fighting", "flying", "poison", "ground", "rock", "bug",
@@ -40,7 +49,7 @@ function Home (){
         "dragon", "dark", "fairy", "stellar", "unknown"
     ];
 
-    const contenedorFiltro = document.createElement("section");
+    const contenedorFiltro = document.createElement("div");
     contenedorFiltro.classList.add("tipos-container"); 
 
     for (let i = 0; i < tipos.length; i++) {
@@ -56,17 +65,16 @@ function Home (){
         contenedorFiltro.appendChild(btn);
     }
 
-    //contenedor
 
-
+    //add contenedor lista
     const listaHTML = generarLista(pokemones);
-    var contenedorPokes = document.createElement("section")
-    contenedorPokes.id = "la-lista"
-    contenedorPokes.innerHTML = generarLista(pokemones);
+    var contenedorLista = document.createElement("div");
+    contenedorLista.classList.add("c-contenedor-lista"); 
+    contenedorLista.id = "la-lista"; 
+    contenedorLista.innerHTML = listaHTML;
 
-    document.getElementById("root").appendChild(buscador)
-    document.getElementById("root").appendChild(contenedorFiltro)
-    document.getElementById("root").appendChild(contenedorPokes)
-
-
+    //agregar contenedores
+    root.appendChild(buscador);
+    root.appendChild(contenedorFiltro);
+    root.appendChild(contenedorLista);
 }
